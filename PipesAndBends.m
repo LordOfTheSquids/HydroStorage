@@ -32,9 +32,11 @@ fprintf(dataFile, ['Cost   ($)  Length (m)  Friction  Diam. (m)',...
         '  Bend 1  Bend 2\n']);
 
 %% Zone 1 Analysis
+fprintf(dataFile, 'Zone One\n');
 zone1Data = zeros(rowsPipes - 1, 4);
 bendCol = 2;
-bendLoss = bendData(2, bendCol);
+bendLossOne = bendData(2, bendCol);
+bendLossTwo = 0;
 n = 1;
 for col = 1:(columnsPipes - 1)
     for row = 2:rowsPipes
@@ -50,18 +52,22 @@ for col = 1:(columnsPipes - 1)
         zone1Data(n, 2) = length;
         zone1Data(n, 3) = friction;
         zone1Data(n, 4) = diameter;
-        zone1Data(n, 5) = bendLoss;
+        zone1Data(n, 5) = bendLossOne;
+        zone1Data(n, 6) = bendLossTwo;
         fprintf(dataFile, ['%10.2f    %8.2f      %.2f       %.2f',...
-                '    %.2f\n'],... 
-                totalCost, length, friction, diameter, bendLoss);
+                '    %.2f    %.2f\n'],... 
+                totalCost, length, friction, diameter, bendLossOne,...
+                bendLossTwo);
         n = n + 1;
     end
 end
 
 %% Zone 2 Analysis
+fprintf(dataFile, 'Zone Two\n');
 zone2Data = zeros(rowsPipes - 1, 4);
 bendCol = 4;
-bendLoss = bendData(2, bendCol);
+bendLossOne = bendData(2, bendCol);
+bendLossTwo = 0;
 n = 1;
 for col = 1:(columnsPipes - 1)
     for row = 2:rowsPipes
@@ -77,15 +83,18 @@ for col = 1:(columnsPipes - 1)
         zone2Data(n, 2) = length;
         zone2Data(n, 3) = friction;
         zone2Data(n, 4) = diameter;
-        zone2Data(n, 5) = bendLoss;
+        zone2Data(n, 5) = bendLossOne;
+        zone2Data(n, 5) = bendLossTwo;
         fprintf(dataFile, ['%10.2f    %8.2f      %.2f       %.2f',...
-                '    %.2f\n'],...
-                totalCost, length, friction, diameter, bendLoss);
+                '    %.2f    %.2f\n'],...
+                totalCost, length, friction, diameter, bendLossOne,...
+                bendLossTwo);
         n = n + 1;
     end
 end
 
 %% Zone 3 Analysis
+fprintf(dataFile, 'Zone Three\n');
 zone3Data = zeros(rowsPipes - 1, 5);
 bendColOne = 1;
 bendColTwo = 3;
@@ -110,7 +119,7 @@ for col = 1:(columnsPipes - 1)
         zone3Data(n, 5) = bendLossOne;
         zone3Data(n, 6) = bendLossTwo;
         fprintf(dataFile, ['%10.2f    %8.2f      %.2f       %.2f',...
-                '    %.2f   %.2f\n'],... 
+                '    %.2f    %.2f\n'],... 
                 totalCost, length, friction, diameter, bendLossOne,...
                 bendLossTwo);
         n = n + 1;
