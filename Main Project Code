@@ -1,1 +1,55 @@
-
+%header
+clc;
+clear;
+eOut = 120; %MWh
+g = 9.81; %m/s^2
+dWater = 1000; %kg per cubic meter.
+custom = input ('Use custom inputs? (Y/N): ', 's');
+eKnown = input('Is Total Available input energy known? (Y/N): ', 's');
+if strcmpi(eKnown, 'Y')
+    eIn = input('Enter maximum available input energy: ');
+    fprintf('Continuing analysis.\n');
+else
+    fprintf('Continuing with analysis.');
+end
+if strcmpi(custom, 'Y')
+    custFile = input('Use custom file inputs? (Y/N): ', 's');
+    if strcmpi(custFile, 'Y')
+        inFile = input('Enter file name you wish to test: ' , 's');
+        rawData = load(inFile);
+        %Enter input order here in text file. Copy arrays.
+        nPump = rawData(:,1); %unitless pump efficiency.
+        nTurb = rawData(:,2); %unitless turbine efficiency.
+        pipeD = rawData(:,3); %diameter of pipe in meters.
+        pipeL = rawData(:,4); %length of pipe used in meters.
+        pipeF = rawData(:,5); %unitless pipe friction coefficient
+        resDepth = rawData(:,6); %reservoir depth in meters
+        pumpV = rawData(:,7); %pump volumetric flow rate
+        turbV = rawData(:,8); %turbine volumetric flow rate
+        bend1 = rawData(:,9); %bend 1 coefficient
+        bend2 = rawData(:10); %bend 2 coefficient
+    else
+        nPump = input('Enter pump efficiency coefficient: ');
+        nTurb = input('Enter turbine efficiency coefficient: ');
+        pipeD = input('Enter pipe diameter in meters: '); %m
+        pipeL = input('Enter pipe length in meters: ');
+        pipeF = input('Enter pipe friction coefficient: '); %unitless
+        resDepth = input('Enter reservoir depth in meters: ');
+        %siteNum = input('Enter site number: '); could potentially go
+        %switch case here.
+        pumpV = input('Enter volumetric flow rate of the pump: ');
+        turbV = input('Enter volumetric flow rate of the turbine: ');
+        bend1 = input('Enter bend coefficient 1: ');
+        bend2 = input('Enter bend coefficient 2: ');
+    end;
+else
+    fprintf('Testing all values that are relevent.');
+    %This is where we copy relevent arrays from the CSVs
+end;
+%Here is where the bulk of the code processing goes.
+turbLoss = turbine_loss(nTurb, eOut);
+arraySize = size(turbLoss);
+for l = 1:1:arraySize(2)
+    eNeeded = eOut + turbLoss(1,l); %Start building array of total energy
+    %needed.
+end
