@@ -1,4 +1,5 @@
-%header
+pumpLoss = pump_loss(nPump, eNeeded);
+eNeeded = eNeeded + pump_loss;%header
 clc;
 clear;
 eOut = 120; %MWh
@@ -53,3 +54,8 @@ for l = 1:1:arraySize(2)
     eNeeded = eOut + turbLoss(1,l); %Start building array of total energy
     %needed.
 end
+%Pipe stuff goes here.
+pumpLoss = pump_loss(nPump, eNeeded);
+eNeeded = eNeeded + pump_loss;
+eIn = eNeeded;
+efficiency = eOut / eIn;
