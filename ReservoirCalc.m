@@ -32,14 +32,25 @@
 
 function resData = ReservoirCalc(resDepth, waterMass, maxArea,...
                                  maxPerimeter, wallCostFile)
+    
+    % Calculate the area needed to store waterMass at a depth of resDepth
     resArea = waterMass / (1000 * resDepth);
+    
+    % Calculate the perimeter required to store said water, scaled from
+    % maxPerimeter and maxArea
     perimeter = maxPerimeter * sqrt(resArea / maxArea);
+    
+    % Load the wall pricings from wallCostFile
     depthCosts = load(wallCostFile);
+    
+    % Find the entry for the current reservoir depth and calculate costs
     numDepths = length(depthCosts);
     for i = 1:numDepths
         if (abs(resDepth - depthCosts(i, 1)) < 0.001)
             cost = perimeter * depthCosts(i, 2);
         end
     end
+    
+    % Return results
     resData = [cost, resArea, perimeter];
 end
